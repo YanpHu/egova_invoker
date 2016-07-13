@@ -7,9 +7,9 @@ import java.io.ObjectInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.rmi.RemoteException;
 import java.util.zip.GZIPInputStream;
 
+import com.egova.rpc.exception.RemoteException;
 import com.egova.rpc.support.HttpInvokerClientConfiguration;
 import com.egova.rpc.support.RemoteInvocationResult;
 
