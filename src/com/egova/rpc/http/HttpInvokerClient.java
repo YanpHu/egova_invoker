@@ -9,6 +9,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import com.egova.rpc.exception.RemoteException;
 import com.egova.rpc.support.HttpInvokerClientConfiguration;
 import com.egova.rpc.support.RemoteInvocationResult;
@@ -36,6 +38,11 @@ public class HttpInvokerClient {
 
 	protected static final String CONTENT_TYPE_SERIALIZED_OBJECT = "application/x-java-serialized-object";
 
+	protected static final String HTTPS_PROTOCOL = "https";
+	
+	protected static final String HTTP_PROTOCOL = "http";
+
+	
 	private boolean acceptGzipEncoding = true;
 
 	private int connectTimeout = -1;
@@ -71,11 +78,45 @@ public class HttpInvokerClient {
 	}
 
 	protected HttpURLConnection openConnection(HttpInvokerClientConfiguration config) throws IOException {
-		URLConnection con = new URL(config.getServiceUrl()).openConnection();
+		URL url = new URL(config.getServiceUrl());
+		
+		HttpURLConnection conn;
+		if (HTTPS_PROTOCOL.equals(url.getProtocol())) {
+			conn = openHttpsConnection(url);
+		} else {
+			conn = openHttpConnection(url);
+		}
+		
+		
+		return (HttpURLConnection) conn;
+	}
+
+	protected HttpURLConnection openHttpConnection(URL url) throws IOException {
+		if (!HTTP_PROTOCOL.equals(url.getProtocol())) {
+			throw  new IOException("Service URL [" + url.toString() + "] is not an HTTP PROTOCOL");
+		}
+		URLConnection con = url.openConnection();
 		if (!(con instanceof HttpURLConnection)) {
-			throw new IOException("Service URL [" + config.getServiceUrl() + "] is not an HTTP URL");
+			throw new IOException("Service URL [" + url.toString() + "] is not an HTTP URL");
 		}
 		return (HttpURLConnection) con;
+	}
+
+	protected HttpsURLConnection openHttpsConnection(URL url) throws IOException {
+		if (!HTTPS_PROTOCOL.equals(url.getProtocol())) {
+			throw  new IOException("Service URL [" + url.toString() + "] is not an HTTPS PROTOCOL");
+		}
+		
+		URLConnection con = url.openConnection();
+		if (!(con instanceof HttpsURLConnection)) {
+			throw new IOException("Service URL [" + url.toString() + "] is not an HTTPS URL");
+		}
+		
+		HttpsURLConnection connHttps = (HttpsURLConnection) con;
+        connHttps.setSSLSocketFactory(HttpsHelper.socketFactory);
+        connHttps.setHostnameVerifier(HttpsHelper.verifier);
+		
+		return connHttps;
 	}
 
 	protected void prepareConnection(HttpURLConnection connection, int contentLength) throws IOException {
