@@ -11,9 +11,9 @@
 客户端和服务器端的接口和实体类要一致，实体类必须是可以序列化的
 
 比如：
-	定义Bean：
 	
 
+	定义Bean：
 		public class DemoBean implements java.io.Serializable{
 		
 			/**
