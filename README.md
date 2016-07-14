@@ -10,9 +10,9 @@
 
 比如：
 	定义Bean：
-		import java.io.Serializable;
+	
 
-		public class DemoBean implements Serializable{
+		public class DemoBean implements java.io.Serializable{
 		
 			/**
 			 * 
