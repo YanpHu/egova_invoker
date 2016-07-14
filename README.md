@@ -1,5 +1,7 @@
 # egova_invoker
 
+基于Spring的HttpInvoker实现改写
+
 服务器端调用：
 	HttpInvoker.invoker 方法，设置InvokerProcess处理
 	
