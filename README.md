@@ -1,9 +1,75 @@
 # egova_invoker
 
-·şÎñÆ÷¶Ëµ÷ÓÃ£º
-	HttpInvoker.invoker ·½·¨£¬ÉèÖÃInvokerProcess´¦Àí
+æœåŠ¡å™¨ç«¯è°ƒç”¨ï¼š
+	HttpInvoker.invoker æ–¹æ³•ï¼Œè®¾ç½®InvokerProcesså¤„ç†
 	
-¿Í»§¶Ëµ÷ÓÃ£º
-	ProxyFactory.proxy ·½·¨£¬Éú³É½Ó¿ÚµÄ´úÀí¶ÔÏó£¬Ö±½Óµ÷ÓÃ·½·¨
+å®¢æˆ·ç«¯è°ƒç”¨ï¼š
+	ProxyFactory.proxy æ–¹æ³•ï¼Œç”Ÿæˆæ¥å£çš„ä»£ç†å¯¹è±¡ï¼Œç›´æ¥è°ƒç”¨æ–¹æ³•
 	
-¿Í»§¶ËºÍ·şÎñÆ÷¶ËµÄ½Ó¿ÚºÍÊµÌåÀàÒªÒ»ÖÂ£¬ÊµÌåÀà±ØĞëÊÇ¿ÉÒÔĞòÁĞ»¯µÄ
+å®¢æˆ·ç«¯å’ŒæœåŠ¡å™¨ç«¯çš„æ¥å£å’Œå®ä½“ç±»è¦ä¸€è‡´ï¼Œå®ä½“ç±»å¿…é¡»æ˜¯å¯ä»¥åºåˆ—åŒ–çš„
+
+æ¯”å¦‚ï¼š
+	å®šä¹‰Beanï¼š
+		import java.io.Serializable;
+
+		public class DemoBean implements Serializable{
+		
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5401380996187961689L;
+		
+			private String name;
+			
+			private String passWork;
+			
+			//çœç•¥get,set
+		}
+	å®šä¹‰æ¥å£:
+		
+		public interface DemoService {
+		
+			public Object doTest(DemoBean bean);
+			
+		}
+		
+	å®¢æˆ·ç«¯è°ƒç”¨:
+		import com.egova.rpc.proxy.ProxyFactory;
+
+		public class ClientDemo {
+			public static void main(String[] args) {
+				String bindUrl = "æœåŠ¡å™¨ç«¯è¯·æ±‚åœ°å€/egova_invoker/invoker";
+				DemoService demoService = ProxyFactory.proxy(DemoService.class, bindUrl);
+				DemoBean  demo = new DemoBean();
+				DemoBean  value = demoService.doTest(demo);
+				System.out.println(value);
+			}
+		}
+		
+	æœåŠ¡ç«¯å¤„ç†:
+		import javax.servlet.http.HttpServletRequest;
+		import javax.servlet.http.HttpServletResponse;
+		
+		import org.springframework.stereotype.Controller;
+		import org.springframework.web.bind.annotation.RequestMapping;
+		
+		import com.egova.rpc.remote.HttpInvoker;
+		import com.egova.rpc.remote.InvokerProcess;
+		import com.egova.rpc.support.RemoteInvocation;
+		
+		@Controller
+		@RequestMapping(value="/egova_invoker")
+		public class ServerDemo{
+			
+			@RequestMapping(value="invoker")
+			public void invoker(HttpServletRequest request, HttpServletResponse  response) {
+				HttpInvoker.invoker(request, response, new InvokerProcess(){
+					public Object process(RemoteInvocation invocation){
+						//è·å–targetObject,å³æ¥å£invocation.getInterfaceClazz()å®ç°ç±»
+						Object targetObject = new Object();
+						invocation.invoke(targetObject);
+					}
+				});
+			}
+		}
+
