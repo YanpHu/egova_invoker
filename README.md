@@ -31,7 +31,7 @@
 		
 		public interface DemoService {
 		
-			public Object doTest(DemoBean bean);
+			public DemoBean  doTest(DemoBean bean);
 			
 		}
 		
