@@ -14,6 +14,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.egova.rpc.exception.RemoteException;
 import com.egova.rpc.support.HttpInvokerClientConfiguration;
 import com.egova.rpc.support.RemoteInvocationResult;
+import static com.egova.rpc.http.HttpConstants.*;
 
 /**
  * 远程调用客户端,基于java序列化实现
@@ -22,27 +23,6 @@ import com.egova.rpc.support.RemoteInvocationResult;
  */
 public class HttpInvokerClient {
 
-	protected static final String HTTP_METHOD_POST = "POST";
-
-	protected static final String HTTP_HEADER_ACCEPT_LANGUAGE = "Accept-Language";
-
-	protected static final String HTTP_HEADER_ACCEPT_ENCODING = "Accept-Encoding";
-
-	protected static final String HTTP_HEADER_CONTENT_ENCODING = "Content-Encoding";
-
-	protected static final String HTTP_HEADER_CONTENT_TYPE = "Content-Type";
-
-	protected static final String HTTP_HEADER_CONTENT_LENGTH = "Content-Length";
-
-	protected static final String ENCODING_GZIP = "gzip";
-
-	protected static final String CONTENT_TYPE_SERIALIZED_OBJECT = "application/x-java-serialized-object";
-
-	protected static final String HTTPS_PROTOCOL = "https";
-	
-	protected static final String HTTP_PROTOCOL = "http";
-
-	
 	private boolean acceptGzipEncoding = true;
 
 	private int connectTimeout = -1;
@@ -79,22 +59,23 @@ public class HttpInvokerClient {
 
 	protected HttpURLConnection openConnection(HttpInvokerClientConfiguration config) throws IOException {
 		URL url = new URL(config.getServiceUrl());
-		
+
 		HttpURLConnection conn;
+
 		if (HTTPS_PROTOCOL.equals(url.getProtocol())) {
 			conn = openHttpsConnection(url);
 		} else {
 			conn = openHttpConnection(url);
 		}
-		
-		
-		return (HttpURLConnection) conn;
+
+		return conn;
 	}
 
 	protected HttpURLConnection openHttpConnection(URL url) throws IOException {
 		if (!HTTP_PROTOCOL.equals(url.getProtocol())) {
-			throw  new IOException("Service URL [" + url.toString() + "] is not an HTTP PROTOCOL");
+			throw new IOException("Service URL [" + url.toString() + "] is not an HTTP PROTOCOL");
 		}
+
 		URLConnection con = url.openConnection();
 		if (!(con instanceof HttpURLConnection)) {
 			throw new IOException("Service URL [" + url.toString() + "] is not an HTTP URL");
@@ -104,18 +85,18 @@ public class HttpInvokerClient {
 
 	protected HttpsURLConnection openHttpsConnection(URL url) throws IOException {
 		if (!HTTPS_PROTOCOL.equals(url.getProtocol())) {
-			throw  new IOException("Service URL [" + url.toString() + "] is not an HTTPS PROTOCOL");
+			throw new IOException("Service URL [" + url.toString() + "] is not an HTTPS PROTOCOL");
 		}
-		
+
 		URLConnection con = url.openConnection();
 		if (!(con instanceof HttpsURLConnection)) {
 			throw new IOException("Service URL [" + url.toString() + "] is not an HTTPS URL");
 		}
-		
+
 		HttpsURLConnection connHttps = (HttpsURLConnection) con;
-        connHttps.setSSLSocketFactory(HttpsHelper.socketFactory);
-        connHttps.setHostnameVerifier(HttpsHelper.verifier);
-		
+		connHttps.setSSLSocketFactory(HttpsHelper.socketFactory);
+		connHttps.setHostnameVerifier(HttpsHelper.verifier);
+
 		return connHttps;
 	}
 
