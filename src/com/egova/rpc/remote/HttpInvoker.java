@@ -21,7 +21,7 @@ import com.egova.rpc.util.SerializeUtils;
  */
 public abstract class HttpInvoker {
 
-	public static void invoker(HttpServletRequest request, HttpServletResponse respone, InvokerProcess invokerProcess)
+	public static void invoker(HttpServletRequest request, HttpServletResponse response, InvokerProcess invokerProcess)
 			throws IOException {
 		RemoteInvocationResult result;
 		try {
@@ -44,7 +44,7 @@ public abstract class HttpInvoker {
 			result = new RemoteInvocationResult(e);
 		}
 		ByteArrayOutputStream baos = SerializeUtils.getByteArrayOutputStream(result);
-		baos.writeTo(respone.getOutputStream());
+		baos.writeTo(response.getOutputStream());
 
 	}
 
