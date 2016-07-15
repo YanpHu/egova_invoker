@@ -11,7 +11,7 @@ import com.egova.rpc.http.HttpInvokerClient;
 import com.egova.rpc.support.HttpInvokerClientConfiguration;
 import com.egova.rpc.support.RemoteInvocation;
 import com.egova.rpc.support.RemoteInvocationResult;
-import com.egova.rpc.util.SerializeUtils;
+import com.egova.rpc.support.util.SerializeUtils;
 
 /**
  * 代理类，暂时只支持JDK的动态代理

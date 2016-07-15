@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.egova.rpc.util.ClassUtils;
+import com.egova.rpc.support.util.ClassUtils;
 
 /**
  * 远程调用封装类

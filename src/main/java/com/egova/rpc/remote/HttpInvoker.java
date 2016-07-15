@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.egova.rpc.exception.RemoteException;
 import com.egova.rpc.support.RemoteInvocation;
 import com.egova.rpc.support.RemoteInvocationResult;
-import com.egova.rpc.util.SerializeUtils;
+import com.egova.rpc.support.util.SerializeUtils;
 
 /**
  * 远程调用服务端调用invoker方法即可

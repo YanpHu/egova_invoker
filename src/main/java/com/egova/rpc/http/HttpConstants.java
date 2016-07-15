@@ -1,6 +1,6 @@
 package com.egova.rpc.http;
 
-public class HttpConstants {
+class HttpConstants {
 	protected static final String HTTP_METHOD_POST = "POST";
 
 	protected static final String HTTP_HEADER_ACCEPT_LANGUAGE = "Accept-Language";

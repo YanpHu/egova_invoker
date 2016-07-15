@@ -1,0 +1,7 @@
+#文件夹忽略
+.settings/
+target/
+
+#文件忽略
+.classpath
+.project

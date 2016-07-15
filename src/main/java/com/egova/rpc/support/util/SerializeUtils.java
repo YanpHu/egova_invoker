@@ -1,4 +1,4 @@
-package com.egova.rpc.util;
+package com.egova.rpc.support.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
