@@ -23,7 +23,7 @@
 		
 			private String name;
 			
-			private String passWork;
+			private String passWord;
 			
 			//省略get,set
 		}
