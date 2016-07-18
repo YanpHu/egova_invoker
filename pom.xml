@@ -11,7 +11,7 @@
 	<url>http://maven.apache.org</url>
 
 	<build>
-		<finalName>SqlBuilder</finalName>
+		<finalName>egova_invoker</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
